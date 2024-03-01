@@ -7,6 +7,17 @@ import styles from './ToastPlayground.module.css';
 const VARIANT_OPTIONS = ['notice', 'warning', 'success', 'error'];
 
 function ToastPlayground() {
+  const [message, setMessage] = React.useState('');
+  const [selectedVariant, setSelectedVariant] = React.useState('notice');
+
+  function handleOnMessageChange(event) {
+    setMessage(event.target.value);
+  }
+
+  function handleOnSelectedVariantChange(event) {
+    setSelectedVariant(event.target.value);
+  }
+
   return (
     <div className={styles.wrapper}>
       <header>
@@ -24,27 +35,32 @@ function ToastPlayground() {
             Message
           </label>
           <div className={styles.inputWrapper}>
-            <textarea id="message" className={styles.messageInput} />
+            <textarea id="message" className={styles.messageInput} value={message} onChange={handleOnMessageChange} />
           </div>
         </div>
 
         <div className={styles.row}>
           <div className={styles.label}>Variant</div>
-          <div
-            className={`${styles.inputWrapper} ${styles.radioWrapper}`}
-          >
-            <label htmlFor="variant-notice">
-              <input
-                id="variant-notice"
-                type="radio"
-                name="variant"
-                value="notice"
-              />
-              notice
-            </label>
-
-            {/* TODO Other Variant radio buttons here */}
-          </div>
+          <fieldset className={styles.radioGroup}>
+            {VARIANT_OPTIONS.map((variant) => (
+              <div
+                key={variant}
+                className={`${styles.inputWrapper} ${styles.radioWrapper}`}
+              >
+                <label htmlFor={`variant-${variant}`}>
+                  <input
+                    id={`variant-${variant}`}
+                    type="radio"
+                    name="variant"
+                    value={variant}
+                    checked={selectedVariant === variant}
+                    onChange={handleOnSelectedVariantChange}
+                  />
+                  {variant}
+                </label>
+              </div>
+            ))}
+          </fieldset>
         </div>
 
         <div className={styles.row}>
