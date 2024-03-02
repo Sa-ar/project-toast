@@ -8,9 +8,12 @@ import styles from './ToastPlayground.module.css';
 
 const VARIANT_OPTIONS = ['notice', 'warning', 'success', 'error'];
 
+const INITIAL_MESSAGE = '';
+const INITIAL_VARIANT = VARIANT_OPTIONS[0];
+
 function ToastPlayground() {
-  const [message, setMessage] = React.useState('');
-  const [variant, setVariant] = React.useState(VARIANT_OPTIONS[0]);
+  const [message, setMessage] = React.useState(INITIAL_MESSAGE);
+  const [variant, setVariant] = React.useState(INITIAL_VARIANT);
   const { addToast } = React.useContext(ToastContext);
 
   function handleOnMessageChange(event) {
@@ -21,9 +24,15 @@ function ToastPlayground() {
     setVariant(event.target.value);
   }
 
+  function resetForm() {
+    setMessage(INITIAL_MESSAGE);
+    setVariant(INITIAL_VARIANT);
+  }
+
   function handleOnSubmit(event) {
     event.preventDefault();
     addToast(message, variant);
+    resetForm();
   }
 
   return (
